@@ -1,26 +1,31 @@
 import { useEffect, useState } from "react";
 
-const getKeys = async (keysCallback) => {
-  const keys = await fetch("/api/keys", {
+const getKeys = async (search, keysCallback) => {
+  let endpoint = "/api/keys";
+  if (!search || search.length > 0) {
+    endpoint += `/${encodeURIComponent(search)}`;
+  }
+  const keys = await fetch(endpoint, {
     method: "GET",
   }).then((resp) => resp.json());
   if (keysCallback) {
-    keysCallback(
-      Object.entries(keys).map(([k, v]) => {
-        return {
-          ...v,
-          key: k,
-        };
-      })
-    );
+    keysCallback(keys);
   }
 };
 
 export default function Home() {
   const [keys, setKeys] = useState([]);
+  const [search, setSearch] = useState("");
+
+  const doSearch = async (e) => {
+    e.preventDefault();
+    await getKeys(search, setKeys);
+  };
+
   useEffect(() => {
-    getKeys(setKeys);
+    getKeys("", setKeys);
   }, []);
+
   return (
     <>
       <div className="container mx-auto scrollbar-hide">
@@ -28,13 +33,15 @@ export default function Home() {
           <div className="flex flex-wrap flex-row mb-1 sm:mb-0 justify-between w-full">
             <h2 className="text-2xl leading-tight md:pr-0 text-white">KEYS</h2>
             <div className="text-end">
-              <form className="flex w-full space-x-3">
+              <form className="flex w-full space-x-3" onSubmit={doSearch}>
                 <div className=" relative ">
                   <input
                     type="text"
                     id='"form-subscribe-Filter'
                     className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                     placeholder="key name"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                   />
                 </div>
                 <button
