@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import KeyList from "../components/keylist"
 
 const getKeys = async (search, keysCallback) => {
     let endpoint = "/api/keys"
@@ -63,13 +64,8 @@ export default function Home() {
                 </div>
                 <div className="py-4">
                     <div className="max-w-full h-screen overflow-x-auto shadow rounded-lg bg-white">
-                        <div className="w-full leading-normal overflow-y-auto">
-                            {keys &&
-                                keys.map((k) => (
-                                    <code className="text-gray-800" key={k.key}>
-                                        {JSON.stringify(k, null, 2)}
-                                    </code>
-                                ))}
+                        <div className="h-full w-full leading-normal overflow-y-auto p-8">
+                            <KeyList keys={keys} />
                         </div>
                     </div>
                 </div>
