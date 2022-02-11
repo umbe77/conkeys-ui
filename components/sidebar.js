@@ -2,6 +2,8 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { CodeIcon, UsersIcon } from "@heroicons/react/outline"
 import css from "./sidebar.module.css"
+import { useRecoilValue } from "recoil"
+import { userState } from "../lib/atoms/userState"
 
 const SideHeader = () => {
     return (
@@ -12,6 +14,7 @@ const SideHeader = () => {
 }
 
 const SideItems = () => {
+    const user = useRecoilValue(userState)
     const { asPath } = useRouter()
     const style = {
         title: `mx-4 text-sm`,
@@ -19,6 +22,26 @@ const SideItems = () => {
         active: `border-l-4 border-white lg:border-l-0 lg:border-r-4`,
         link: `flex items-center text-gray-200 justify-start my-9 px-3 w-full hover:text-white`,
     }
+
+    const isUserLogged = (usr) => {
+        if (usr?.isLogged) {
+            return (
+                <Link href="/users">
+                    <a
+                        className={`${style.link}
+                    ${"/users" === asPath ? style.active : ""}`}
+                    >
+                        <span>
+                            <UsersIcon className="h-6 w-6" />
+                        </span>
+                        <span className={style.title}>Users</span>
+                    </a>
+                </Link>
+            )
+        }
+        return <></>
+    }
+
     return (
         <ul className="md:pl-6">
             <li>
@@ -36,19 +59,8 @@ const SideItems = () => {
                             <span className={style.title}>Keys</span>
                         </a>
                     </Link>
-                    <Link href="/users">
-                        <a
-                            className={`${style.link}
-                    ${"/users" === asPath ? style.active : ""}`}
-                        >
-                            <span>
-                                <UsersIcon className="h-6 w-6" />
-                            </span>
-                            <span className={style.title}>Users</span>
-                        </a>
-                    </Link>
                 </div>
-                {/* end section users */}
+                {isUserLogged(user)}
             </li>
         </ul>
     )

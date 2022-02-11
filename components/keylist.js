@@ -34,7 +34,7 @@ const ConfKeyType = ({ type }) => {
 const KeyCard = ({ item }) => {
     const { key, T, V } = item
     return (
-        <div className="border border-gray-200 p-6 rounded-lg hover:shadow-md">
+        <div className="bg-gray-100 border border-gray-400 p-6 rounded-lg hover:shadow-md">
             <div className="flex flex-row items-center justify-between">
                 <div className="flex flex-col">
                     <h2 className="text-lg text-gray-900 font-semibold title-font mb-2">
@@ -43,7 +43,7 @@ const KeyCard = ({ item }) => {
                     <p className="truncate leading-relaxed text-black">{V}</p>
                 </div>
                 <div className="flex flex-col">
-                    <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-blue-400 text-blue-100 mb-4">
+                    <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-slate-400 text-blue-100 mb-4">
                         <ConfKeyType type={T} />
                     </div>
                 </div>
@@ -53,7 +53,7 @@ const KeyCard = ({ item }) => {
 }
 export default function KeyList({ keys }) {
     return (
-        <div className="flex flex-wrap -m-4">
+        <div className="grid grid-cols-4 gap-6">
             {keys.map((k) => (
                 <KeyCard item={k} key={k.key} />
             ))}

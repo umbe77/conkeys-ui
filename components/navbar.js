@@ -1,6 +1,11 @@
-import { ChevronDownIcon } from "@heroicons/react/outline"
+import { ChevronDownIcon, LoginIcon } from "@heroicons/react/outline"
+import { useRecoilValue, useSetRecoilState } from "recoil"
+import { signInModalState } from "../lib/atoms/signInModalState"
+import { userState } from "../lib/atoms/userState"
 
 export default function Navbar() {
+    const user = useRecoilValue(userState)
+    const setSignInOpen = useSetRecoilState(signInModalState)
     return (
         <header className="bg-[#0e141b] h-20 items-center relative z-10">
             <div className="flex flex-center flex-col h-full justify-center mx-auto px-3 relative">
@@ -48,13 +53,24 @@ export default function Navbar() {
                         </div>
                     </div>
                     <div className="flex items-center justify-end ml-5 p-1 relative w-1/4 sm:mr-0 sm:right-auto">
-                        <a href="#" className="block relative">
-                            <img
-                                alt="CR7"
-                                src="/images/1.png"
-                                className="h-10 mx-auto object-cover rounded-full w-10 "
-                            />
-                        </a>
+                        {!user.isLogged && (
+                            <div className="space-x-2">
+                                <button
+                                    className="inline-flex space-x-2 px-4 py-2 text-base font-semibold text-white bg-gray-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200"
+                                    onClick={() => setSignInOpen(true)}
+                                >
+                                    <LoginIcon className="h-6 w-6" />
+                                    <span>Sign In</span>
+                                </button>
+                            </div>
+                        )}
+                        {/* <a href="#" className="block relative"> */}
+                        {/*     <img */}
+                        {/*         alt="CR7" */}
+                        {/*         src="/images/1.png" */}
+                        {/*         className="h-10 mx-auto object-cover rounded-full w-10 " */}
+                        {/*     /> */}
+                        {/* </a> */}
                     </div>
                 </div>
             </div>
