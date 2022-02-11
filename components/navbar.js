@@ -64,6 +64,16 @@ export default function Navbar() {
                                 </button>
                             </div>
                         )}
+                        {user.isLogged && (
+                            <div>
+                                <div className="w-12 h-12 inline-flex items-center justify-center font-bold rounded-full bg-indigo-200 text-gray-800">
+                                    <span>
+                                        {user?.name[0]?.toUpperCase()}
+                                        {user?.lastName[0]?.toUpperCase()}
+                                    </span>
+                                </div>
+                            </div>
+                        )}
                         {/* <a href="#" className="block relative"> */}
                         {/*     <img */}
                         {/*         alt="CR7" */}
