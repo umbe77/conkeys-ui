@@ -1,4 +1,7 @@
+import { userState } from "../lib/atoms/userState"
+import { useRecoilValue } from "recoil"
 import { At, Calendar, Hash } from "tabler-icons-react"
+import { useRouter } from "next/router"
 
 const ConfKeyType = ({ type }) => {
     switch (type) {
@@ -33,8 +36,23 @@ const ConfKeyType = ({ type }) => {
 
 const KeyCard = ({ item }) => {
     const { key, T, V } = item
+    const user = useRecoilValue(userState)
+    const { push } = useRouter()
+    const goToKey = (e) => {
+        if (!user.isLogged) {
+            e.preventDefault()
+            return
+        }
+        push(`/key/${encodeURIComponent(key)}`)
+    }
     return (
-        <div className="bg-gray-100 border border-gray-400 p-6 rounded-lg hover:shadow-md">
+        <div
+            className={
+                "bg-gray-100 border border-gray-400 p-6 rounded-lg hover:shadow-md group" +
+                (user.isLogged ? " cursor-pointer" : "")
+            }
+            onClick={goToKey}
+        >
             <div className="flex flex-row items-center justify-between">
                 <div className="flex flex-col">
                     <h2 className="text-lg text-gray-900 font-semibold title-font mb-2">
@@ -43,7 +61,7 @@ const KeyCard = ({ item }) => {
                     <p className="truncate leading-relaxed text-black">{V}</p>
                 </div>
                 <div className="flex flex-col">
-                    <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-slate-400 text-blue-100 mb-4">
+                    <div className="w-10 h-10 inline-flex items-center justify-center rounded-full group-hover:bg-purple-700 bg-slate-400 text-blue-100 mb-4">
                         <ConfKeyType type={T} />
                     </div>
                 </div>

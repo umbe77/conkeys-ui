@@ -74,13 +74,6 @@ export default function Navbar() {
                                 </div>
                             </div>
                         )}
-                        {/* <a href="#" className="block relative"> */}
-                        {/*     <img */}
-                        {/*         alt="CR7" */}
-                        {/*         src="/images/1.png" */}
-                        {/*         className="h-10 mx-auto object-cover rounded-full w-10 " */}
-                        {/*     /> */}
-                        {/* </a> */}
                     </div>
                 </div>
             </div>
