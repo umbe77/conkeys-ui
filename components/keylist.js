@@ -1,6 +1,6 @@
 import { userState } from "../lib/atoms/userState"
 import { useRecoilValue } from "recoil"
-import { At, Calendar, Hash } from "tabler-icons-react"
+import { At, Calendar, Hash, Checkbox, Key } from "tabler-icons-react"
 import { useRouter } from "next/router"
 
 const ConfKeyType = ({ type }) => {
@@ -31,6 +31,10 @@ const ConfKeyType = ({ type }) => {
             return <At className="h-6 w-6" />
         case 3:
             return <Calendar className="h-6 w-6" />
+        case 4:
+            return <Checkbox className="h-6 w-6" />
+        case 5:
+            return <Key className="h-6 w-6" />
     }
 }
 

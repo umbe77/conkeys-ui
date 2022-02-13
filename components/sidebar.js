@@ -51,7 +51,11 @@ const SideItems = () => {
                     <Link href="/">
                         <a
                             className={`${style.link}
-                    ${"/" === asPath ? style.active : ""}`}
+                    ${
+                        "/" === asPath || asPath.startsWith("/key")
+                            ? style.active
+                            : ""
+                    }`}
                         >
                             <span>
                                 <CodeIcon className="h-6 w-6" />
