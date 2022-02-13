@@ -12,8 +12,6 @@ export default async function handler(req, res) {
                 /^Bearer\s/,
                 ""
             )
-            console.dir(req.headers["authorization"])
-            console.dir(token)
             await saveKey(token, { key, T, V })
             res.status(200)
             res.end()
