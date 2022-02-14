@@ -32,15 +32,18 @@ export default function KeyCardEdit() {
     useEffect(() => {
         const get = async () => {
             Object.entries(
-                await fetch(`/api/key/${encodeURIComponent(slug)}`).then(
-                    (res) => res.json()
-                )
+                await fetch(`/api/key/${encodeURIComponent(slug)}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }).then((res) => res.json())
             ).forEach(([oK, oV]) => {
                 setValue(oK, oV)
             })
         }
         get()
-    }, [setValue, slug])
+    }, [setValue, slug, token])
 
     return (
         <>

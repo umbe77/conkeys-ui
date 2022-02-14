@@ -1,6 +1,8 @@
 import { getUser, login } from "../../lib/conkeys"
+import { removeEtag } from "../../lib/http-utils"
 
 export default async function handler(req, res) {
+    removeEtag(res)
     if (req.method !== "POST") {
         res.status(405)
         res.end()
