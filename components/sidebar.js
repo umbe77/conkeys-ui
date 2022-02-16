@@ -1,13 +1,13 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { CodeIcon, UsersIcon } from "@heroicons/react/outline"
-import css from "./sidebar.module.css"
+import { UsersIcon } from "@heroicons/react/outline"
+import { CodeIcon } from "@heroicons/react/solid"
 import { useRecoilValue } from "recoil"
 import { userState } from "../lib/atoms/userState"
 
 const SideHeader = () => {
     return (
-        <div className="bg-[#0e141b] flex h-20 items-center justify-center mb-16 sticky text-white text-3xl top-0">
+        <div className="flex h-20 justify-center mb-16 sticky text-gray-900 dark:text-white text-3xl top-0">
             CONKEYS
         </div>
     )
@@ -15,77 +15,52 @@ const SideHeader = () => {
 
 const SideItems = () => {
     const user = useRecoilValue(userState)
-    const { asPath } = useRouter()
     const style = {
         title: `mx-4 text-sm`,
         section: `font-thin pl-5 text-white mb-6 uppercase lg:pl-6`,
-        active: `border-l-4 border-white lg:border-l-0 lg:border-r-4`,
-        link: `flex items-center text-gray-200 justify-start my-9 px-3 w-full hover:text-white`,
+        // active: `border-l-4 border-white lg:border-l-0 lg:border-r-4`,
+        active: "border-b-2 border-gray-900 dark:border-white",
+        link: `flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700`,
     }
 
     const isUserLogged = (usr) => {
         if (usr?.isLogged) {
             return (
-                <Link href="/users">
-                    <a
-                        className={`${style.link}
-                    ${"/users" === asPath ? style.active : ""}`}
-                    >
-                        <span>
-                            <UsersIcon className="h-6 w-6" />
-                        </span>
-                        <span className={style.title}>Users</span>
-                    </a>
-                </Link>
+                <li>
+                    <Link href="/users">
+                        <a className={`${style.link}`}>
+                            <span>
+                                <UsersIcon className="h-6 w-6" />
+                            </span>
+                            <span className={style.title}>Users</span>
+                        </a>
+                    </Link>
+                </li>
             )
         }
         return <></>
     }
 
     return (
-        <ul className="md:pl-6">
+        <ul className="md:pl-6 space-y-2">
             <li>
                 {/* section keys */}
-                <div className="mb-12">
-                    <div className={style.section}>APPLICATION</div>
-                    <Link href="/">
-                        <a
-                            className={`${style.link}
-                    ${
-                        "/" === asPath || asPath.startsWith("/key")
-                            ? style.active
-                            : ""
-                    }`}
-                        >
-                            <span>
-                                <CodeIcon className="h-6 w-6" />
-                            </span>
-                            <span className={style.title}>Keys</span>
-                        </a>
-                    </Link>
-                </div>
-                {isUserLogged(user)}
+                <Link href="/">
+                    <a className={`${style.link}`}>
+                        <CodeIcon className="w-5 h-6" />
+                        <span className="ml-3 font-medium">Keys</span>
+                    </a>
+                </Link>
             </li>
+
+            {isUserLogged(user)}
         </ul>
     )
 }
 
 export default function Sidebar() {
-    const style = {
-        mobilePosition: {
-            left: "left-0",
-            right: "right-0",
-        },
-        close: `hidden`,
-        container: `pb-32 lg:pb-6`,
-        open: `w-8/12 absolute z-40 sm:w-5/12`,
-        default: `bg-[#0e141b] h-screen overflow-y-auto top-0 lg:block lg:relative lg:w-64 lg:z-auto`,
-    }
     return (
-        <aside
-            className={`${style.default} ${style.mobilePosition.left} 
-       ${style.open ? style.open : style.close} ${css.scrollbar}`}
-        >
+        <aside className="h-screen top-0 lg:block lg:relative lg:w-64 px-3 py-4 overflow-y-auto rounded bg-gray-100 dark:bg-gray-800">
             <SideHeader />
             <SideItems />
         </aside>

@@ -29,10 +29,10 @@ export default function Home() {
 
     return (
         <>
-            <div className="container mx-auto scrollbar-hide">
-                <div className="py-8">
+            <div className="container mx-8 scrollbar-hide">
+                <div>
                     <div className="flex flex-wrap flex-row mb-1 sm:mb-0 justify-between w-full">
-                        <h2 className="text-2xl leading-tight md:pr-0 text-white">
+                        <h2 className="text-2xl leading-tight md:pr-0 text-gray-900 dark:text-white">
                             KEYS
                         </h2>
                         <div className="text-end">
@@ -63,7 +63,7 @@ export default function Home() {
                     </div>
                 </div>
                 <div className="py-4">
-                    <div className="max-w-full h-screen overflow-x-auto shadow rounded-lg bg-gray-200 p-8">
+                    <div className="max-w-full h-screen overflow-x-auto shadow rounded-lg bg-gray-100 dark:bg-gray-800 p-8">
                         <KeyList keys={keys} />
                     </div>
                 </div>

@@ -29,7 +29,7 @@ export default function LoginForm() {
                 onClick={() => setSignInOpen(false)}
             >
                 <div
-                    className="flex flex-col w-full p-20 m-8 bg-white text-gray-800 rounded-md lg:m-0 lg:w-1/4 sm:p-10"
+                    className="flex flex-col w-full p-20 m-8 text-gray-800 rounded-md lg:m-0 lg:w-1/4 sm:p-10"
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="mb-8 text-center">
