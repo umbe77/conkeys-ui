@@ -8,7 +8,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil"
 import { signInModalState } from "../lib/atoms/signInModalState"
 import { userState } from "../lib/atoms/userState"
 import { useTheme } from "next-themes"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 
 const ThemeIcon = ({ theme }) => {
     const style = "w-7 h-7"
@@ -34,7 +34,6 @@ export default function Navbar() {
                 <div className="justify-between items-center w-full md:flex md:w-auto">
                     <div className="hidden relative mr-3 md:mr-0 md:block">
                         <div className="flex absolute text-gray-500 dark:text-gray-400 inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                            {/* <svg className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg> */}
                             <SearchIcon className="w-5 h-5" />
                         </div>
                         <input
@@ -75,8 +74,8 @@ export default function Navbar() {
                     )}
                     {user.isLogged && (
                         <div>
-                            <button className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
-                                <div className="w-12 h-12 inline-flex items-center justify-center font-bold rounded-full bg-indigo-200 text-gray-800">
+                            <button className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-purple-400 dark:focus:ring-purple-600">
+                                <div className="w-12 h-12 inline-flex items-center justify-center font-bold rounded-full border-purple-400 border-2 dark:border-purple-600 bg-purple-300  dark:bg-purple-500 text-gray-800">
                                     <span>
                                         {user?.name[0]?.toUpperCase()}
                                         {user?.lastName[0]?.toUpperCase()}

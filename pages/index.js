@@ -1,31 +1,53 @@
+import { SearchIcon } from "@heroicons/react/outline"
 import { useEffect, useState } from "react"
+import {
+    BehaviorSubject,
+    debounce,
+    debounceTime,
+    filter,
+    from,
+    mergeMap,
+} from "rxjs"
 import KeyList from "../components/keylist"
 
-const getKeys = async (search, keysCallback) => {
+const getKeys = async (search) => {
     let endpoint = "/api/keys"
     if (!search || search.length > 0) {
         endpoint += `/${encodeURIComponent(search)}`
     }
-    const keys = await fetch(endpoint, {
+    const res = await fetch(endpoint, {
         method: "GET",
-    }).then((resp) => resp.json())
-    if (keysCallback) {
-        keysCallback(keys)
-    }
+    })
+    return res.json()
+}
+
+const keys$ = new BehaviorSubject("")
+const search$ = keys$.pipe(
+    debounceTime(250),
+    mergeMap((val) => from(getKeys(val)))
+)
+
+const useObsevabale = (observable, setter) => {
+    useEffect(() => {
+        observable.subscribe((keys) => {
+            setter(keys)
+        })
+
+        return () => observable.unsubscribe()
+    }, [observable, setter])
 }
 
 export default function Home() {
     const [keys, setKeys] = useState([])
     const [search, setSearch] = useState("")
 
-    const doSearch = async (e) => {
-        e.preventDefault()
-        await getKeys(search, setKeys)
+    const onSearch = (e) => {
+        const newValue = e.target.value
+        setSearch(newValue)
+        search$.next(newValue)
     }
 
-    useEffect(() => {
-        getKeys("", setKeys)
-    }, [])
+    useObsevabale(search$, setKeys)
 
     return (
         <>
@@ -36,29 +58,19 @@ export default function Home() {
                             KEYS
                         </h2>
                         <div className="text-end">
-                            <form
-                                className="flex w-full space-x-3"
-                                onSubmit={doSearch}
-                            >
-                                <div className=" relative ">
-                                    <input
-                                        type="text"
-                                        id='"form-subscribe-Filter'
-                                        className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                                        placeholder="key name"
-                                        value={search}
-                                        onChange={(e) =>
-                                            setSearch(e.target.value)
-                                        }
-                                    />
+                            <div className="hidden relative mr-3 md:mr-0 md:block">
+                                <div className="flex absolute text-gray-500 dark:text-gray-400 inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                    <SearchIcon className="w-5 h-5" />
                                 </div>
-                                <button
-                                    className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-gray-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200"
-                                    type="submit"
-                                >
-                                    Filter
-                                </button>
-                            </form>
+                                <input
+                                    type="text"
+                                    id="email-adress-icon"
+                                    className="block p-2 pl-10 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Search..."
+                                    onChange={onSearch}
+                                    value={search}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -76,6 +76,15 @@ const KeyCard = ({ item }) => {
     )
 }
 export default function KeyList({ keys }) {
+    if (keys.length === 0) {
+        return (
+            <div className="flex items-center justify-center">
+                <h2 className="text-gray-900 dark:text-slate-200 font-bold text-2xl">
+                    No Keys Found
+                </h2>
+            </div>
+        )
+    }
     return (
         <div className="grid grid-cols-4 gap-6">
             {keys.map((k) => (
