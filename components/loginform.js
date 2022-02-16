@@ -22,81 +22,93 @@ export default function LoginForm() {
         setSignInOpen(false)
     }
 
+    console.log(signInOpen)
+
     if (signInOpen) {
         return (
             <div
-                className="absolute inset-0 flex -top-96 items-center justify-center bg-gray-700 bg-opacity-50 z-50"
+                className="overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center h-modal md:h-full md:inset-0
+				bg-black bg-opacity-50 flex"
                 onClick={() => setSignInOpen(false)}
             >
-                <div
-                    className="flex flex-col w-full p-20 m-8 text-gray-800 rounded-md lg:m-0 lg:w-1/4 sm:p-10"
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <div className="mb-8 text-center">
-                        <h1 className="my-3 text-4xl font-bold">Sign in</h1>
-                        <p className="text-sm">
-                            Sign in to access your account
-                        </p>
-                    </div>
-                    <form onSubmit={signIn}>
-                        <div className="space-y-4">
+                <div className="relative px-4 w-full max-w-md h-full md:h-auto">
+                    <div
+                        className="relative bg-white rounded-lg shadow dark:bg-gray-700"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div class="flex justify-end p-2">
+                            <button
+                                type="button"
+                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                                onClick={() => setSignInOpen(false)}
+                            >
+                                <svg
+                                    class="w-5 h-5"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"
+                                    ></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <form
+                            className="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8"
+                            onSubmit={signIn}
+                        >
+                            <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                                Sign in to our platform
+                            </h3>
                             <div>
                                 <label
                                     htmlFor="userName"
-                                    className="block mb-2 text-sm"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                                 >
                                     Username
                                 </label>
                                 <input
                                     type="text"
                                     value={userName}
+                                    required
                                     onChange={(e) =>
                                         setUserName(e.target.value)
                                     }
                                     name="userName"
                                     placeholder="Username"
-                                    className="w-full px-3 py-2 text-slate-800 border border-slate-300 rounded-md bg-slate-50 focus:outline-none focus:ring-1 focus:ring-blue-300"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 />
                             </div>
                             <div>
-                                <div className="flex justify-between mb-2">
-                                    <label
-                                        htmlFor="password"
-                                        className="text-sm"
-                                    >
-                                        Password
-                                    </label>
-                                </div>
+                                <label
+                                    htmlFor="password"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                >
+                                    Password
+                                </label>
                                 <input
                                     type="password"
                                     value={password}
+                                    required
                                     onChange={(e) =>
                                         setPassword(e.target.value)
                                     }
                                     name="password"
                                     placeholder="Password"
-                                    className="w-full px-3 py-2 text-slate-800 border border-slate-300 rounded-md bg-slate-50 focus:outline-none focus:ring-1 focus:ring-blue-300"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 />
                             </div>
-                        </div>
-                        <div className="mt-6 space-y-2">
-                            <div className="flex gap-x-2">
-                                <button
-                                    type="submit"
-                                    className="w-full px-8 py-3 text-blue-100 bg-gray-600 rounded-md"
-                                >
-                                    Sign in
-                                </button>
-                                <button
-                                    type="button"
-                                    className="w-full px-8 py-3 text-blue-600 border border-blue-600 rounded-md"
-                                    onClick={() => setSignInOpen(false)}
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                            <button
+                                type="submit"
+                                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                                Sign In
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         )

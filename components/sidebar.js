@@ -60,7 +60,7 @@ const SideItems = () => {
 
 export default function Sidebar() {
     return (
-        <aside className="h-screen top-0 lg:block lg:relative lg:w-64 px-3 py-4 overflow-y-auto rounded bg-gray-100 dark:bg-gray-800">
+        <aside className="h-screen top-0 lg:block lg:relative lg:w-56 px-3 py-4 overflow-y-auto rounded bg-gray-100 dark:bg-gray-800">
             <SideHeader />
             <SideItems />
         </aside>

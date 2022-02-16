@@ -29,8 +29,8 @@ export default function Home() {
 
     return (
         <>
-            <div className="container mx-8 scrollbar-hide">
-                <div>
+            <div className="container mx-auto scrollbar-hide">
+                <div className="mx-auto">
                     <div className="flex flex-wrap flex-row mb-1 sm:mb-0 justify-between w-full">
                         <h2 className="text-2xl leading-tight md:pr-0 text-gray-900 dark:text-white">
                             KEYS
