@@ -12,9 +12,7 @@ import { useEffect, useState } from "react"
 
 const ThemeIcon = ({ theme }) => {
     const style = "w-7 h-7"
-    console.log(theme)
     if (theme === "dark") {
-        console.log("sun")
         return <SunIcon className={style} />
     }
     return <MoonIcon className={style} />

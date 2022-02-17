@@ -1,13 +1,6 @@
 import { SearchIcon } from "@heroicons/react/outline"
 import { useEffect, useState } from "react"
-import {
-    BehaviorSubject,
-    debounce,
-    debounceTime,
-    filter,
-    from,
-    mergeMap,
-} from "rxjs"
+import { BehaviorSubject, debounceTime, from, mergeMap } from "rxjs"
 import KeyList from "../components/keylist"
 
 const getKeys = async (search) => {

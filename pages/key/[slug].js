@@ -18,7 +18,6 @@ export default function KeyCardEdit() {
     } = useForm()
 
     const onSubmit = async ({ key, T, V }) => {
-        console.log({ key, T, V })
         await fetch(`/api/key/${encodeURIComponent(key)}`, {
             method: "PUT",
             headers: {
