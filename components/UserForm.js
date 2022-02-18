@@ -177,12 +177,18 @@ export default function UserFrom() {
                                     </div>
                                 </div>
                             </div>
-                            <div>
+                            <div className="flex items-center justify-end space-x-4">
                                 <button
                                     type="submit"
-                                    className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 >
                                     Save
+                                </button>
+                                <button
+                                    className="text-gray-900 hover:text-white border border-gray-400 hover:bg-gray-500 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                                    onClick={closeModal}
+                                >
+                                    Cancel
                                 </button>
                             </div>
                         </form>

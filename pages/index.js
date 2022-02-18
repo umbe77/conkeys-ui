@@ -68,7 +68,7 @@ export default function Home() {
                     </div>
                 </div>
                 <div className="py-4">
-                    <div className="max-w-full h-screen overflow-x-auto shadow rounded-lg bg-gray-100 dark:bg-gray-800 p-8">
+                    <div className="max-w-full h-screen overflow-x-auto shadow rounded-lg bg-gray-50 dark:bg-gray-800 p-8">
                         <KeyList keys={keys} />
                     </div>
                 </div>
