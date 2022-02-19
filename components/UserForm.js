@@ -18,6 +18,7 @@ export default function UserFrom() {
         register,
         handleSubmit,
         setValue,
+        reset,
         formState: { errors, isSubmitting },
     } = useForm()
 
@@ -39,7 +40,7 @@ export default function UserFrom() {
 
     const closeModal = () => {
         setUserFormOpen(false)
-        setSelectedUserName(null)
+        reset()
     }
 
     useEffect(() => {
@@ -106,15 +107,29 @@ export default function UserFrom() {
                                     {...register("userName", {
                                         required: true,
                                     })}
-                                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                    className={`block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none  focus:outline-none focus:ring-0  peer ${
+                                        errors.userName
+                                            ? "border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:border-red-400"
+                                            : "text-gray-900 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:border-blue-600"
+                                    }`}
                                     placeholder=" "
                                 />
                                 <label
                                     htmlFor="userName"
-                                    className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                    className={`absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
+                                        errors.userName
+                                            ? "text-red-700 dark:text-red-500 peer-focus:text-red-700 peer-focus:dark:text-red-500"
+                                            : "text-gray-500 dark:text-gray-400 peer-focus:text-blue-600 peer-focus:dark:text-blue-500"
+                                    }`}
                                 >
                                     User Name
                                 </label>
+                                {errors.userName && (
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                        <span class="font-medium">Oops!</span>{" "}
+                                        Username is mandatory
+                                    </p>
+                                )}
                             </div>
                             <div className="relative z-0 mb-6 w-full group">
                                 <input
@@ -179,6 +194,7 @@ export default function UserFrom() {
                             </div>
                             <div className="flex items-center justify-end space-x-4">
                                 <button
+                                    disabled={isSubmitting}
                                     type="submit"
                                     className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 >
