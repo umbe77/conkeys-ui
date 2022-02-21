@@ -1,4 +1,5 @@
 import UserForm from "../components/UserForm"
+import SetPassword from "../components/SetPassword"
 import {
     LockClosedIcon,
     PencilAltIcon,
@@ -12,6 +13,7 @@ import { userState } from "../lib/atoms/userState"
 import {
     selectedUserState,
     userFormModalState,
+    setPasswordModalState,
 } from "../lib/atoms/userFormState"
 
 export default function Users() {
@@ -19,15 +21,16 @@ export default function Users() {
     const [search, setSearch] = useState("")
     const setSelectedUser = useSetRecoilState(selectedUserState)
     const setModalOpen = useSetRecoilState(userFormModalState)
+    const setSetPasswordOpen = useSetRecoilState(setPasswordModalState)
     const [users, setUsers] = useState([])
 
     const onSearch = (e) => {
         setSearch(e.target.vale)
     }
 
-    const openModal = (userName) => {
+    const openModal = (userName, modalOpen) => {
         setSelectedUser(userName)
-        setModalOpen(true)
+        modalOpen(true)
     }
 
     useEffect(() => {
@@ -54,7 +57,7 @@ export default function Users() {
                         <div className="flex space-x-2 text-end">
                             <button
                                 className="inline-flex justify-center items-center space-x-2 text-purple-700 hover:text-white border border-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-base px-5 text-center mr-2 dark:border-purple-400 dark:text-purple-400 dark:hover:text-white dark:hover:bg-purple-500 dark:focus:ring-purple-900"
-                                onClick={() => openModal(null)}
+                                onClick={() => openModal(null, setModalOpen)}
                             >
                                 <UserAddIcon className="h-5 w-5" />
                                 <span>Add User</span>
@@ -158,7 +161,8 @@ export default function Users() {
                                                                     ) => {
                                                                         e.preventDefault()
                                                                         openModal(
-                                                                            userName
+                                                                            userName,
+                                                                            setModalOpen
                                                                         )
                                                                     }}
                                                                 >
@@ -170,6 +174,15 @@ export default function Users() {
                                                                 <a
                                                                     href="#"
                                                                     className="inline-flex space-x-2 justify-center items-center text-purple-600 dark:text-purple-500 hover:underline"
+                                                                    onClick={(
+                                                                        e
+                                                                    ) => {
+                                                                        e.preventDefault()
+                                                                        setSetPasswordOpen(
+                                                                            userName,
+                                                                            setSetPasswordOpen
+                                                                        )
+                                                                    }}
                                                                 >
                                                                     <LockClosedIcon className="h-5 w-5" />
                                                                     <span>
@@ -191,6 +204,7 @@ export default function Users() {
                 </div>
             </div>
             <UserForm />
+            <SetPassword />
         </>
     )
 }

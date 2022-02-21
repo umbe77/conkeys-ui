@@ -1,6 +1,6 @@
 import Navbar from "./navbar"
 import Sidebar from "./sidebar"
-export default function Layout({ children }) {
+export const Layout = ({ children }) => {
     return (
         <>
             <div className="flex items-start">

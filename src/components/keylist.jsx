@@ -1,7 +1,6 @@
-import { userState } from "../lib/atoms/userState"
+import { userState } from "../atoms"
 import { useRecoilValue } from "recoil"
 import { At, Calendar, Hash, Checkbox, Key } from "tabler-icons-react"
-import { useRouter } from "next/router"
 
 const ConfKeyType = ({ type }) => {
     switch (type) {
@@ -41,13 +40,12 @@ const ConfKeyType = ({ type }) => {
 const KeyCard = ({ item }) => {
     const { key, T, V } = item
     const user = useRecoilValue(userState)
-    const { push } = useRouter()
     const goToKey = (e) => {
         if (!user.isLogged) {
             e.preventDefault()
             return
         }
-        push(`/key/${encodeURIComponent(key)}`)
+        // push(`/key/${encodeURIComponent(key)}`)
     }
     return (
         <div
@@ -59,7 +57,7 @@ const KeyCard = ({ item }) => {
         >
             <div className="flex flex-row text-grey-900 dark:text-salte-200 items-center justify-between">
                 <div className="flex flex-col">
-                    <h2 className="text-lg font-semibold title-font mb-2">
+                    <h2 className="text-lg font-semibold title-font mb-2 text-green-900 dark:text-slate-200">
                         {key}
                     </h2>
                     <p className="truncate leading-relaxed text-gray-900 dark:text-slate-200">
@@ -75,7 +73,7 @@ const KeyCard = ({ item }) => {
         </div>
     )
 }
-export default function KeyList({ keys }) {
+export const KeyList = ({ keys }) => {
     if (keys.length === 0) {
         return (
             <div className="flex items-center justify-center">

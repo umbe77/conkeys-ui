@@ -1,31 +1,29 @@
-import { useState } from "react"
+import { useForm } from "react-hook-form"
 import { useRecoilState, useSetRecoilState } from "recoil"
-import { signInModalState } from "../lib/atoms/signInModalState"
-import { userState } from "../lib/atoms/userState"
+import { signInModalState, userState } from "../atoms"
+import { login } from "../lib/conkeys"
 
 export default function LoginForm() {
-    const [signInOpen, setSignInOpen] = useRecoilState(signInModalState)
     const setUser = useSetRecoilState(userState)
-    const [userName, setUserName] = useState("")
-    const [password, setPassword] = useState("")
+    const [signInOpen, setSignInOpen] = useRecoilState(signInModalState)
 
-    const signIn = async (e) => {
-        e.preventDefault()
-        const usr = await fetch("/api/token", {
-            method: "POST",
-            body: JSON.stringify({
-                userName,
-                password,
-            }),
-        }).then((resp) => resp.json())
-        setUser(usr)
-        setSignInOpen(false)
+    const { register, handleSubmit } = useForm()
+
+    const onSubmit = async ({ userName, password }) => {
+        const usr = await login(userName, password)
+        if (usr.isLogged) {
+            setUser(usr)
+            setSignInOpen(false)
+            return
+        }
+        alert(usr.error)
     }
+
     if (signInOpen) {
         return (
             <div
-                className="overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center h-modal md:h-full md:inset-0
-				bg-black bg-opacity-50 flex"
+                className="flex overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center h-modal md:h-full md:inset-0
+				bg-black bg-opacity-50"
                 onClick={() => setSignInOpen(false)}
             >
                 <div className="relative px-4 w-full max-w-md h-full md:h-auto">
@@ -55,7 +53,7 @@ export default function LoginForm() {
                         </div>
                         <form
                             className="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8"
-                            onSubmit={signIn}
+                            onSubmit={handleSubmit(onSubmit)}
                         >
                             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
                                 Sign in to our platform
@@ -69,12 +67,11 @@ export default function LoginForm() {
                                 </label>
                                 <input
                                     type="text"
-                                    value={userName}
-                                    required
-                                    onChange={(e) =>
-                                        setUserName(e.target.value)
-                                    }
+                                    autoFocus
                                     name="userName"
+                                    {...register("userName", {
+                                        required: true,
+                                    })}
                                     placeholder="Username"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 />
@@ -88,12 +85,10 @@ export default function LoginForm() {
                                 </label>
                                 <input
                                     type="password"
-                                    value={password}
-                                    required
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
-                                    }
                                     name="password"
+                                    {...register("password", {
+                                        required: true,
+                                    })}
                                     placeholder="Password"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 />

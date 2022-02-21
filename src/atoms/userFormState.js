@@ -9,3 +9,8 @@ export const selectedUserState = atom({
     key: "selectedUser",
     default: null,
 })
+
+export const setPasswordModalState = atom({
+    key: "setPasswordModalState",
+    default: false,
+})

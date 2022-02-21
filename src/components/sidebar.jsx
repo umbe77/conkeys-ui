@@ -1,9 +1,8 @@
-import Link from "next/link"
-import { useRouter } from "next/router"
 import { UsersIcon } from "@heroicons/react/outline"
 import { CodeIcon } from "@heroicons/react/solid"
+import { Link } from "react-router-dom"
 import { useRecoilValue } from "recoil"
-import { userState } from "../lib/atoms/userState"
+import { userState } from "../atoms"
 
 const SideHeader = () => {
     return (
@@ -24,16 +23,14 @@ const SideItems = () => {
     }
 
     const isUserLogged = (usr) => {
-        if (usr?.isLogged) {
+        if (usr?.isLogged && usr?.isAdmin) {
             return (
                 <li>
-                    <Link href="/users">
-                        <a className={`${style.link}`}>
-                            <span>
-                                <UsersIcon className="h-6 w-6" />
-                            </span>
-                            <span className={style.title}>Users</span>
-                        </a>
+                    <Link to="/users" className={style.link}>
+                        <span>
+                            <UsersIcon className="h-6 w-6" />
+                        </span>
+                        <span className={style.title}>Users</span>
                     </Link>
                 </li>
             )
@@ -44,12 +41,9 @@ const SideItems = () => {
     return (
         <ul className="md:pl-6 space-y-2">
             <li>
-                {/* section keys */}
-                <Link href="/">
-                    <a className={`${style.link}`}>
-                        <CodeIcon className="w-5 h-6" />
-                        <span className="ml-3 font-medium">Keys</span>
-                    </a>
+                <Link to="/" className={style.link}>
+                    <CodeIcon className="w-5 h-6" />
+                    <span className="ml-3 font-medium">Keys</span>
                 </Link>
             </li>
 
@@ -60,7 +54,7 @@ const SideItems = () => {
 
 export default function Sidebar() {
     return (
-        <aside className="h-screen top-0 lg:block lg:relative lg:w-56 px-3 py-4 overflow-y-auto rounded bg-gray-100 dark:bg-gray-800">
+        <aside className="transition duration-200 h-screen top-0 lg:block lg:relative lg:w-56 px-3 py-4 overflow-y-auto bg-gray-100 dark:bg-gray-800">
             <SideHeader />
             <SideItems />
         </aside>

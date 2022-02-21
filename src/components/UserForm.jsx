@@ -1,18 +1,13 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { useRecoilState, useRecoilValue } from "recoil"
-import {
-    userFormModalState,
-    selectedUserState,
-} from "../lib/atoms/userFormState"
-import { userState } from "../lib/atoms/userState"
+import { userFormModalState, selectedUserState, userState } from "../atoms"
+import { addUser, getUser, saveUser } from "../lib"
 
-export default function UserFrom() {
+export const UserForm = ({ refresh }) => {
     const [userFormOpen, setUserFormOpen] = useRecoilState(userFormModalState)
-    const [isNewUser, setIsNewUser] = useState(true)
     const { token } = useRecoilValue(userState)
-    const [selectedUserName, setSelectedUserName] =
-        useRecoilState(selectedUserState)
+    const [selectedUserName] = useRecoilState(selectedUserState)
 
     const {
         register,
@@ -23,42 +18,24 @@ export default function UserFrom() {
     } = useForm()
 
     const onSubmit = async ({ userName, name, lastName, email, isAdmin }) => {
-        let method = "PUT"
-        if (isNewUser) {
-            method = "POST"
-        }
-        await fetch(`/api/users/${encodeURIComponent(userName)}`, {
-            method: method,
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "content-type": "application/json",
-            },
-            body: JSON.stringify({ userName, name, lastName, email, isAdmin }),
-        })
+        const save = selectedUserName === null ? addUser : saveUser
+        save(token, { userName, name, lastName, email, isAdmin })
         closeModal()
     }
 
     const closeModal = () => {
+        refresh()
         setUserFormOpen(false)
         reset()
     }
 
     useEffect(() => {
         const get = async () => {
-            const user = await fetch(
-                `/api/users/${encodeURIComponent(selectedUserName)}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "content-type": "application/json",
-                    },
-                }
-            ).then((res) => res.json())
+            const user = await getUser(token, selectedUserName)
             Object.entries(user).map(([k, v]) => setValue(k, v))
         }
         if (selectedUserName !== null) {
             get()
-            setIsNewUser(false)
         }
     }, [selectedUserName, token])
 
@@ -109,7 +86,7 @@ export default function UserFrom() {
                                     })}
                                     className={`block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none  focus:outline-none focus:ring-0  peer ${
                                         errors.userName
-                                            ? "border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:border-red-400"
+                                            ? "border-red-600 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:border-red-500"
                                             : "text-gray-900 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:border-blue-600"
                                     }`}
                                     placeholder=" "
@@ -118,15 +95,17 @@ export default function UserFrom() {
                                     htmlFor="userName"
                                     className={`absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
                                         errors.userName
-                                            ? "text-red-700 dark:text-red-500 peer-focus:text-red-700 peer-focus:dark:text-red-500"
+                                            ? "text-red-600 dark:text-red-500 peer-focus:text-red-600 peer-focus:dark:text-red-500"
                                             : "text-gray-500 dark:text-gray-400 peer-focus:text-blue-600 peer-focus:dark:text-blue-500"
                                     }`}
                                 >
                                     User Name
                                 </label>
                                 {errors.userName && (
-                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                                        <span class="font-medium">Oops!</span>{" "}
+                                    <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                                        <span className="font-medium">
+                                            Oops!
+                                        </span>{" "}
                                         Username is mandatory
                                     </p>
                                 )}

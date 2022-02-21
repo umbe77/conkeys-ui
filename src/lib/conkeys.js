@@ -1,5 +1,3 @@
-const conkeys_base_url = process.env.CONKEYS_URL
-
 const mapKeys = (keys) => {
     return Object.entries(keys).map(([k, v]) => {
         return {
@@ -10,7 +8,7 @@ const mapKeys = (keys) => {
 }
 
 export const getKeys = async () => {
-    const res = await fetch(`${conkeys_base_url}/api/keys`, {
+    const res = await fetch(`/api/keys`, {
         method: "GET",
     })
     if (!res.ok) {
@@ -20,10 +18,7 @@ export const getKeys = async () => {
 }
 
 export const searchKeys = async (search) => {
-    if (search.length === 0) {
-        return []
-    }
-    const res = await fetch(`${conkeys_base_url}/api/keys/${search}`, {
+    const res = await fetch(`/api/keys/${search}`, {
         method: "GET",
     })
     if (!res.ok) {
@@ -37,17 +32,14 @@ export const getKey = async (key, token = null) => {
         return null
     }
 
-    const k = await fetch(
-        `${conkeys_base_url}/api/key/${encodeURIComponent(key)}`,
-        {
-            method: "GET",
-        }
-    ).then((resp) => resp.json())
+    const k = await fetch(`/api/key/${encodeURIComponent(key)}`, {
+        method: "GET",
+    }).then((resp) => resp.json())
 
     if (k.T === 5 && token !== null) {
         try {
             const kEnc = await fetch(
-                `${conkeys_base_url}/api/key-enc/${encodeURIComponent(key)}`,
+                `/api/key-enc/${encodeURIComponent(key)}`,
                 {
                     method: "GET",
                     headers: {
@@ -75,7 +67,7 @@ export const saveKey = async (token, { key, T, V }) => {
                 isLogged: false,
             }
         }
-        await fetch(`${conkeys_base_url}/api/key/${encodeURIComponent(key)}`, {
+        await fetch(`/api/key/${encodeURIComponent(key)}`, {
             method: "PUT",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -98,7 +90,7 @@ export const login = async (userName, password) => {
             isLogged: false,
         }
     }
-    const tk = await fetch(`${conkeys_base_url}/api/token`, {
+    const tokenRes = await fetch(`/api/token`, {
         method: "POST",
         headers: {
             "content-type": "application/json",
@@ -107,10 +99,21 @@ export const login = async (userName, password) => {
             userName: userName,
             password,
         }),
-    }).then((resp) => resp.json())
+    })
+    if (!tokenRes.ok) {
+        return {
+            status: tokenRes.status,
+            error: await tokenRes.text(),
+            isLogged: false,
+        }
+    }
+    const { token } = await tokenRes.json()
+
+    const user = await getUser(token, userName)
 
     return {
-        ...tk,
+        token,
+        ...user,
         isLogged: true,
     }
 }
@@ -121,13 +124,21 @@ export const getUser = async (token, userName) => {
             isLogged: false,
         }
     }
-    return await fetch(`${conkeys_base_url}/api/user/${userName}`, {
+    const userRes = await fetch(`/api/user/${userName}`, {
         method: "GET",
         headers: {
             Authorization: `Bearer ${token}`,
             "content-type": "application/json",
         },
-    }).then((resp) => resp.json())
+    })
+    if (!userRes.ok) {
+        return {
+            status: userRes.status,
+            error: await userRes.text(),
+            isLogged: false,
+        }
+    }
+    return await userRes.json()
 }
 
 export const getUsers = async (token, usr) => {
@@ -137,7 +148,9 @@ export const getUsers = async (token, usr) => {
         }
     }
 
-    const respUsers = await fetch(`${conkeys_base_url}/api/users`, {
+    const uri = usr ? `/api/users?filter=${encodeURI(usr)}` : "/api/users"
+
+    const respUsers = await fetch(uri, {
         method: "GET",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -157,7 +170,7 @@ export const addUser = async (token, user) => {
         }
     }
 
-    const respUser = await fetch(`${conkeys_base_url}/api/user`, {
+    const respUser = await fetch(`/api/user`, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -178,7 +191,7 @@ export const saveUser = async (token, user) => {
         }
     }
 
-    const respUser = await fetch(`${conkeys_base_url}/api/user`, {
+    const respUser = await fetch(`/api/user`, {
         method: "PUT",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -190,4 +203,28 @@ export const saveUser = async (token, user) => {
         throw new Error(respUser.errorMessage)
     }
     return await respUser.json()
+}
+
+export const resetPassword = async (token, userName, password) => {
+    if (token?.length === 0 || password?.length === 0) {
+        throw new Error("Argumente required")
+    }
+
+    const res = await fetch(
+        `/api/user/password/${encodeURIComponent(userName)}`,
+        {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+                "X-PWD": `${password}`,
+            },
+        }
+    )
+
+    if (!res.ok) {
+        return new Error(res.errorMessage)
+    }
+
+    return await res.text()
 }
