@@ -176,9 +176,6 @@ export const Users = () => {
                                                                     }}
                                                                 >
                                                                     <PencilAltIcon className="h-5 w-5" />
-                                                                    <span>
-                                                                        Edit
-                                                                    </span>
                                                                 </a>
                                                                 <a
                                                                     href="#"
@@ -194,10 +191,6 @@ export const Users = () => {
                                                                     }}
                                                                 >
                                                                     <LockClosedIcon className="h-5 w-5" />
-                                                                    <span>
-                                                                        Set
-                                                                        Password
-                                                                    </span>
                                                                 </a>
                                                                 <a
                                                                     href="#"
@@ -212,9 +205,6 @@ export const Users = () => {
                                                                     }}
                                                                 >
                                                                     <TrashIcon className="h-5 w-5" />
-                                                                    <span>
-                                                                        Delete
-                                                                    </span>
                                                                 </a>
                                                             </td>
                                                         </tr>
