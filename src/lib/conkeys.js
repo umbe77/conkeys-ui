@@ -107,9 +107,7 @@ export const login = async (userName, password) => {
             isLogged: false,
         }
     }
-    const { token } = await tokenRes.json()
-
-    const user = await getUser(token, userName)
+    const { token, user } = await tokenRes.json()
 
     return {
         token,
