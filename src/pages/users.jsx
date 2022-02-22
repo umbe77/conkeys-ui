@@ -3,6 +3,7 @@ import {
     LockClosedIcon,
     PencilAltIcon,
     SearchIcon,
+    TrashIcon,
     UserAddIcon,
 } from "@heroicons/react/outline"
 import { Square, SquareCheck } from "tabler-icons-react"
@@ -14,7 +15,7 @@ import {
 } from "../atoms"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { useEffect, useMemo, useState } from "react"
-import { createSearchObservable, getUsers } from "../lib"
+import { createSearchObservable, deleteUser, getUsers } from "../lib"
 import { useObsevabale } from "../hooks"
 
 export const Users = () => {
@@ -39,6 +40,14 @@ export const Users = () => {
         const user = e.target.value
         setSearch(user)
         setUsers(user)
+    }
+
+    const removeUser = async (userName) => {
+        // TODO: Make modal instead of confirm
+        if (confirm(`Delete user: ${userName}\nProceed?`)) {
+            deleteUser(token, userName)
+            refresh()
+        }
     }
 
     const refresh = () => setUsers(search)
@@ -188,6 +197,23 @@ export const Users = () => {
                                                                     <span>
                                                                         Set
                                                                         Password
+                                                                    </span>
+                                                                </a>
+                                                                <a
+                                                                    href="#"
+                                                                    className="inline-flex space-x-2 justify-center items-center text-purple-600 dark:text-purple-500 hover:underline"
+                                                                    onClick={(
+                                                                        e
+                                                                    ) => {
+                                                                        e.preventDefault()
+                                                                        removeUser(
+                                                                            userName
+                                                                        )
+                                                                    }}
+                                                                >
+                                                                    <TrashIcon className="h-5 w-5" />
+                                                                    <span>
+                                                                        Delete
                                                                     </span>
                                                                 </a>
                                                             </td>

@@ -198,9 +198,29 @@ export const saveUser = async (token, user) => {
         body: JSON.stringify(user),
     })
     if (!respUser.ok) {
-        throw new Error(respUser.errorMessage)
+        throw new Error(respUser.statusMessage)
     }
     return await respUser.json()
+}
+
+export const deleteUser = async (token, userName) => {
+    if (token?.length === 0 || userName?.length === 0) {
+        return {
+            isLogged: false,
+        }
+    }
+
+    const respDel = await fetch(`/api/user/${userName}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "content-type": "application/json",
+        },
+    })
+
+    if (!respDel.ok) {
+        throw new Error(respDel.statusMessage)
+    }
 }
 
 export const resetPassword = async (token, userName, password) => {
