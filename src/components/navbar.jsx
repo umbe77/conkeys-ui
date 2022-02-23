@@ -4,7 +4,7 @@ import {
     SunIcon,
     MoonIcon,
 } from "@heroicons/react/outline"
-import { useRecoilValue, useSetRecoilState } from "recoil"
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil"
 import { signInModalState, userState } from "../atoms"
 import { useDarkMode } from "../hooks"
 
@@ -20,6 +20,12 @@ export default function Navbar() {
     const user = useRecoilValue(userState)
     const setSignInOpen = useSetRecoilState(signInModalState)
     const [theme, setTheme] = useDarkMode()
+    const setLogout = useResetRecoilState(userState)
+    const logout = () => {
+        if (confirm("Sign Out...\nAre you sure?")) {
+            setLogout()
+        }
+    }
     return (
         <>
             <nav className="transition duration-200 bg-gray-100 border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-800">
@@ -66,7 +72,10 @@ export default function Navbar() {
                         {user.isLogged && (
                             <div>
                                 <button className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-purple-400 dark:focus:ring-purple-600">
-                                    <div className="w-12 h-12 inline-flex items-center justify-center font-bold rounded-full border-purple-400 border-2 dark:border-purple-600 bg-purple-300  dark:bg-purple-500 text-gray-800">
+                                    <div
+                                        className="w-12 h-12 inline-flex items-center justify-center font-bold rounded-full border-purple-400 border-2 dark:border-purple-600 bg-purple-300  dark:bg-purple-500 text-gray-800"
+                                        onClick={logout}
+                                    >
                                         <span>
                                             {user?.name[0]?.toUpperCase()}
                                             {user?.lastName[0]?.toUpperCase()}
