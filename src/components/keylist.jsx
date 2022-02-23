@@ -1,51 +1,16 @@
-import { userState } from "../atoms"
-import { useRecoilValue } from "recoil"
-import { At, Calendar, Hash, Checkbox, Key } from "tabler-icons-react"
-
-const ConfKeyType = ({ type }) => {
-    switch (type) {
-        case 0:
-            return <Hash className="h-6 w-6" />
-        case 1:
-            // return <Variable className="h-6 w-6" />
-            return (
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    focusable="false"
-                    viewBox="0 0 12 12"
-                    className="h-5 w-5"
-                >
-                    <ellipse
-                        cx="7"
-                        cy="6.5"
-                        fill="none"
-                        stroke="currentColor"
-                        rx="3.5"
-                        ry="5"
-                    />
-                    <circle cx="2" cy="11" r="1" fill="currentColor" />
-                </svg>
-            )
-        case 2:
-            return <At className="h-6 w-6" />
-        case 3:
-            return <Calendar className="h-6 w-6" />
-        case 4:
-            return <Checkbox className="h-6 w-6" />
-        case 5:
-            return <Key className="h-6 w-6" />
-    }
-}
+import { keyFormModalOpenState, userState } from "../atoms"
+import { useRecoilValue, useSetRecoilState } from "recoil"
+import { ConfKeyType, KeyForm } from "."
 
 const KeyCard = ({ item }) => {
     const { key, T, V } = item
     const user = useRecoilValue(userState)
+    const setKeyFormOpen = useSetRecoilState(keyFormModalOpenState)
     const goToKey = (e) => {
-        if (!user.isLogged) {
-            e.preventDefault()
-            return
+        e.preventDefault()
+        if (user.isLogged) {
+            setKeyFormOpen(true)
         }
-        // push(`/key/${encodeURIComponent(key)}`)
     }
     return (
         <div
@@ -84,10 +49,13 @@ export const KeyList = ({ keys }) => {
         )
     }
     return (
-        <div className="grid grid-cols-4 gap-6">
-            {keys.map((k) => (
-                <KeyCard item={k} key={k.key} />
-            ))}
-        </div>
+        <>
+            <div className="grid grid-cols-4 gap-6">
+                {keys.map((k) => (
+                    <KeyCard item={k} key={k.key} />
+                ))}
+            </div>
+            <KeyForm />
+        </>
     )
 }
