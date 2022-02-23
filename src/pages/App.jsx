@@ -39,6 +39,7 @@ export const App = () => {
                                     placeholder="Search..."
                                     onChange={onSearch}
                                     value={search}
+                                    autoComplete="off"
                                 />
                             </div>
                         </div>

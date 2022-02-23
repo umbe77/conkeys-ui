@@ -74,6 +74,7 @@ export const UserForm = ({ refresh }) => {
                         <form
                             className="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8"
                             onSubmit={handleSubmit(onSubmit)}
+                            autoComplete="off"
                         >
                             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
                                 User Editor
