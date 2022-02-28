@@ -1,14 +1,13 @@
 import { CodeIcon, SearchIcon } from "@heroicons/react/outline"
 import { KeyList } from "../components"
-import { getKeysObservable, searchKeys } from "../lib"
-import { useEffect, useState } from "react"
+import { createSearchObservable, getKeysObservable, searchKeys } from "../lib"
+import { useEffect, useMemo, useState } from "react"
 import { useObservable } from "../hooks"
 import { useSetRecoilState } from "recoil"
 import { keyFormModalOpenState } from "../atoms"
 
-const search$ = getKeysObservable(searchKeys)
-
 export const App = () => {
+    const search$ = useMemo(() => createSearchObservable(searchKeys), [])
     const [search, setSearch] = useState("")
     const setKeyFormOpen = useSetRecoilState(keyFormModalOpenState)
     const [keys, setKeys] = useObservable(search$, [])
