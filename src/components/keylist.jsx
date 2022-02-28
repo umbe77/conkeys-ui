@@ -1,4 +1,4 @@
-import { keyFormModalOpenState, userState } from "../atoms"
+import { keyFormModalOpenState, selectedKeyState, userState } from "../atoms"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { ConfKeyType, KeyForm } from "."
 
@@ -6,9 +6,11 @@ const KeyCard = ({ item }) => {
     const { key, T, V } = item
     const user = useRecoilValue(userState)
     const setKeyFormOpen = useSetRecoilState(keyFormModalOpenState)
+    const setSelectedKey = useSetRecoilState(selectedKeyState)
     const goToKey = (e) => {
         e.preventDefault()
         if (user.isLogged) {
+            setSelectedKey(item)
             setKeyFormOpen(true)
         }
     }

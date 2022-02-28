@@ -22,7 +22,7 @@ export default function LoginForm() {
     if (signInOpen) {
         return (
             <div
-                className="flex overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center h-modal md:h-full md:inset-0
+                className="flex overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center h-modal md:h-full md:inset-0
 				bg-black bg-opacity-50"
                 onClick={() => setSignInOpen(false)}
             >

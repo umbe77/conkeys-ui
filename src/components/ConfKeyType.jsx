@@ -32,5 +32,7 @@ export const ConfKeyType = ({ type }) => {
             return <Checkbox className="h-6 w-6" />
         case 5:
             return <Key className="h-6 w-6" />
+        default:
+            return <></>
     }
 }
