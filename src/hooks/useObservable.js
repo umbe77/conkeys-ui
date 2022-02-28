@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export const useObsevabale = (observable$, initialValue) => {
+export const useObservable = (observable$, initialValue) => {
     const [value, setValue] = useState(initialValue)
     const setNextValue = (newVal) => {
         observable$.next(newVal)

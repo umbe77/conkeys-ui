@@ -8,7 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { useOnClickOutside } from "../hooks"
 import { CheckIcon } from "@heroicons/react/solid"
 
-export const KeyForm = () => {
+export const KeyForm = ({ refresh }) => {
     const { token } = useRecoilValue(userState)
     const [keyType, setKeyType] = useState(0)
     const [isKeyTypesOpen, setKeyTypesOpen] = useState(false)
@@ -43,8 +43,8 @@ export const KeyForm = () => {
     }
 
     const onSubmit = async ({ key, V }) => {
-        console.log("onsubmit")
         await saveKey(token, { key, T: keyType, V })
+        refresh()
         closeModal()
     }
 

@@ -6,7 +6,6 @@ const useStorage = (key, initialValue, storage) => {
             const item = storage.getItem(key)
             return item ? JSON.parse(item) : initialValue
         } catch (err) {
-            console.log(err)
             return initialValue
         }
     })

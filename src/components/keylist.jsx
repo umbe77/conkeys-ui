@@ -40,7 +40,7 @@ const KeyCard = ({ item }) => {
         </div>
     )
 }
-export const KeyList = ({ keys }) => {
+export const KeyList = ({ keys, refresh }) => {
     if (keys.length === 0) {
         return (
             <div className="flex items-center justify-center">
@@ -57,7 +57,7 @@ export const KeyList = ({ keys }) => {
                     <KeyCard item={k} key={k.key} />
                 ))}
             </div>
-            <KeyForm />
+            <KeyForm refresh={refresh} />
         </>
     )
 }

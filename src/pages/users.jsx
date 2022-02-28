@@ -16,7 +16,7 @@ import {
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { useEffect, useMemo, useState } from "react"
 import { createSearchObservable, deleteUser, getUsers } from "../lib"
-import { useObsevabale } from "../hooks"
+import { useObservable } from "../hooks"
 
 export const Users = () => {
     const { token } = useRecoilValue(userState)
@@ -24,7 +24,7 @@ export const Users = () => {
         () => createSearchObservable((val) => getUsers(token, val)),
         [token]
     )
-    const [users, setUsers] = useObsevabale(search$, [])
+    const [users, setUsers] = useObservable(search$, [])
 
     const [search, setSearch] = useState("")
     const setSelectedUser = useSetRecoilState(selectedUserState)
