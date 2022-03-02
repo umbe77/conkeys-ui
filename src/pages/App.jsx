@@ -1,16 +1,17 @@
 import { CodeIcon, SearchIcon } from "@heroicons/react/outline"
 import { KeyList } from "../components"
-import { createSearchObservable, getKeysObservable, searchKeys } from "../lib"
+import { createSearchObservable, searchKeys } from "../lib"
 import { useEffect, useMemo, useState } from "react"
 import { useObservable } from "../hooks"
-import { useSetRecoilState } from "recoil"
-import { keyFormModalOpenState } from "../atoms"
+import { useRecoilValue, useSetRecoilState } from "recoil"
+import { keyFormModalOpenState, userState } from "../atoms"
 
 export const App = () => {
     const search$ = useMemo(() => createSearchObservable(searchKeys), [])
     const [search, setSearch] = useState("")
     const setKeyFormOpen = useSetRecoilState(keyFormModalOpenState)
     const [keys, setKeys] = useObservable(search$, [])
+    const user = useRecoilValue(userState)
 
     const onSearch = (e) => {
         const newValue = e.target.value

@@ -83,6 +83,22 @@ export const saveKey = async (token, { key, T, V }) => {
     }
 }
 
+export const removeKey = async (token, key) => {
+    if (token?.length === 0 || key?.length === 0) {
+        return {
+            isLogged: false,
+        }
+    }
+
+    await fetch(`/api/key/${encodeURIComponent(key)}`, {
+        method: "DELETE",
+        headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    })
+}
+
 export const login = async (userName, password) => {
     if (userName?.length === 0 || password?.length === 0) {
         return {
