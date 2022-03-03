@@ -3,15 +3,14 @@ import { KeyList } from "../components"
 import { createSearchObservable, searchKeys } from "../lib"
 import { useEffect, useMemo, useState } from "react"
 import { useObservable } from "../hooks"
-import { useRecoilValue, useSetRecoilState } from "recoil"
-import { keyFormModalOpenState, userState } from "../atoms"
+import { useSetRecoilState } from "recoil"
+import { keyFormModalOpenState } from "../atoms"
 
 export const App = () => {
     const search$ = useMemo(() => createSearchObservable(searchKeys), [])
     const [search, setSearch] = useState("")
     const setKeyFormOpen = useSetRecoilState(keyFormModalOpenState)
     const [keys, setKeys] = useObservable(search$, [])
-    const user = useRecoilValue(userState)
 
     const onSearch = (e) => {
         const newValue = e.target.value
