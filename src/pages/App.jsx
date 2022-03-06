@@ -3,10 +3,11 @@ import { KeyList } from "../components"
 import { createSearchObservable, searchKeys } from "../lib"
 import { useEffect, useMemo, useState } from "react"
 import { useObservable } from "../hooks"
-import { useSetRecoilState } from "recoil"
-import { keyFormModalOpenState } from "../atoms"
+import { useRecoilValue, useSetRecoilState } from "recoil"
+import { keyFormModalOpenState, userState } from "../atoms"
 
 export const App = () => {
+    const { token } = useRecoilValue(userState)
     const search$ = useMemo(() => createSearchObservable(searchKeys), [])
     const [search, setSearch] = useState("")
     const setKeyFormOpen = useSetRecoilState(keyFormModalOpenState)
@@ -32,13 +33,15 @@ export const App = () => {
                             KEYS
                         </h2>
                         <div className="flex space-x-2 text-end">
-                            <button
-                                className="inline-flex justify-center items-center space-x-2 text-purple-700 hover:text-white border border-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-base px-5 text-center mr-2 dark:border-purple-400 dark:text-purple-400 dark:hover:text-white dark:hover:bg-purple-500 dark:focus:ring-purple-900"
-                                onClick={() => setKeyFormOpen(true)}
-                            >
-                                <CodeIcon className="h-5 w-5" />
-                                <span>Add Key</span>
-                            </button>
+                            {token && (
+                                <button
+                                    className="inline-flex justify-center items-center space-x-2 text-purple-700 hover:text-white border border-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-base px-5 text-center mr-2 dark:border-purple-400 dark:text-purple-400 dark:hover:text-white dark:hover:bg-purple-500 dark:focus:ring-purple-900"
+                                    onClick={() => setKeyFormOpen(true)}
+                                >
+                                    <CodeIcon className="h-5 w-5" />
+                                    <span>Add Key</span>
+                                </button>
+                            )}
                             <div className="hidden relative mr-3 md:mr-0 md:block">
                                 <div className="flex absolute text-gray-500 dark:text-gray-400 inset-y-0 left-0 items-center pl-3 pointer-events-none">
                                     <SearchIcon className="w-5 h-5" />

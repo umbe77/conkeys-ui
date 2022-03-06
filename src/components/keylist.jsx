@@ -4,6 +4,20 @@ import { ConfKeyType, KeyForm } from "."
 import { TrashIcon } from "@heroicons/react/outline"
 import { removeKey } from "../lib"
 
+const KeyValue = ({ type, value }) => {
+    switch (type) {
+        case 0:
+        case 1:
+        case 2:
+        case 5:
+            return <p className="truncate w-56">{value}</p>
+        case 3:
+            return <p>{value}</p>
+        case 4:
+            return <p>{value.toString()}</p>
+    }
+}
+
 const KeyCard = ({ item, refresh }) => {
     const { key, T, V } = item
     const user = useRecoilValue(userState)
@@ -36,9 +50,9 @@ const KeyCard = ({ item, refresh }) => {
                     <h2 className="text-lg font-semibold title-font mb-2 text-green-900 dark:text-slate-200">
                         {key}
                     </h2>
-                    <p className="truncate leading-relaxed text-gray-900 dark:text-slate-200">
-                        {V}
-                    </p>
+                    <div className="truncate leading-relaxed text-gray-900 dark:text-slate-200">
+                        <KeyValue type={T} value={V} />
+                    </div>
                 </div>
                 <div className="flex flex-col">
                     <div className="w-10 h-10 inline-flex items-center justify-center rounded-full group-hover:bg-purple-700 bg-slate-400 dark:bg-slate-600 text-blue-100 mb-4">

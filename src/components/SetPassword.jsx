@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form"
 import { useRecoilState, useRecoilValue } from "recoil"
 import { selectedUserState, setPasswordModalState, userState } from "../atoms"
-import { useValidation } from "../hooks"
+import { useConfirmPwdValidation } from "../hooks"
 import { resetPassword } from "../lib"
 
 export const SetPassword = () => {
-    const resolver = useValidation()
+    const resolver = useConfirmPwdValidation()
     const { token } = useRecoilValue(userState)
     const selectedUser = useRecoilValue(selectedUserState)
     const [modalOpen, setModalOpen] = useRecoilState(setPasswordModalState)

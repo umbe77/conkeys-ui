@@ -41,11 +41,12 @@ export const KeyForm = ({ refresh }) => {
     const selectType = (e, type) => {
         e.preventDefault()
         setKeyType(type)
+        setValue("T", type)
         setKeyTypesOpen(false)
     }
 
-    const onSubmit = async ({ key, V }) => {
-        await saveKey(token, { key, T: keyType, V })
+    const onSubmit = async ({ key, T, V }) => {
+        await saveKey(token, { key, T, V })
         refresh()
         closeModal()
     }
@@ -55,7 +56,7 @@ export const KeyForm = ({ refresh }) => {
             if (selectedKey !== null) {
                 const { key, V, T } = await getKey(selectedKey.key, token)
                 setValue("key", key)
-                // setValue("V", V)
+                setValue("T", T)
                 setKeyValue(V)
                 setKeyType(T)
             }
@@ -134,7 +135,7 @@ export const KeyForm = ({ refresh }) => {
                                             <p className="mt-2 text-sm text-red-600 dark:text-red-500">
                                                 <span className="font-medium">
                                                     Oops!
-                                                </span>{" "}
+                                                </span>
                                                 Key is mandatory
                                             </p>
                                         )}
@@ -165,6 +166,10 @@ export const KeyForm = ({ refresh }) => {
                                                 </span>
                                                 <ChevronDownIcon className="h-3 w-3 ml-2" />
                                             </button>
+                                            <input
+                                                type="hidden"
+                                                {...register("T")}
+                                            />
                                             {isKeyTypesOpen && (
                                                 <div
                                                     id="dropdown"
@@ -237,9 +242,8 @@ export const KeyForm = ({ refresh }) => {
                                         {errors.V && (
                                             <p className="mt-2 text-sm text-red-600 dark:text-red-500">
                                                 <span className="font-medium">
-                                                    Oops!
-                                                </span>{" "}
-                                                Value is mandatory
+                                                    Oops! {errors.V.message}
+                                                </span>
                                             </p>
                                         )}
                                     </div>

@@ -8,6 +8,10 @@ export const ConfKeyTypeEdit = ({ type, value }) => {
         setValue,
         formState: { errors },
     } = useFormContext()
+
+    const validateDateType = (v) =>
+        new Date(v).toString() === "Invalid Date" ? "Value is not a Date" : true
+
     useEffect(() => {
         setValue("V", value)
     }, [type, value])
@@ -16,7 +20,10 @@ export const ConfKeyTypeEdit = ({ type, value }) => {
             return (
                 <input
                     type="number"
-                    {...register("V", { required: true, valueAsNumber: true })}
+                    {...register("V", {
+                        required: "Value is Mandatory",
+                        valueAsNumber: true,
+                    })}
                     placeholder="Value"
                     className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 ${
                         errors.V
@@ -30,7 +37,10 @@ export const ConfKeyTypeEdit = ({ type, value }) => {
                 <input
                     type="number"
                     step="0.0000001"
-                    {...register("V", { required: true, valueAsNumber: true })}
+                    {...register("V", {
+                        required: "Value is Mandatory",
+                        valueAsNumber: true,
+                    })}
                     placeholder="Value"
                     className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 ${
                         errors.V
@@ -43,7 +53,7 @@ export const ConfKeyTypeEdit = ({ type, value }) => {
             return (
                 <input
                     type="text"
-                    {...register("V", { required: true })}
+                    {...register("V", { required: "Value is Mandatory" })}
                     placeholder="Value"
                     className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 ${
                         errors.V
@@ -55,8 +65,11 @@ export const ConfKeyTypeEdit = ({ type, value }) => {
         case 3:
             return (
                 <input
-                    type="date"
-                    {...register("V", { required: true, valueAsDate: true })}
+                    type="text"
+                    {...register("V", {
+                        required: "Value is Mandatory",
+                        validate: validateDateType,
+                    })}
                     placeholder="Value"
                     className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 ${
                         errors.V
@@ -66,12 +79,18 @@ export const ConfKeyTypeEdit = ({ type, value }) => {
                 />
             )
         case 4:
-            return <input type="checkbox" {...register("V")} />
+            return (
+                <input
+                    type="checkbox"
+                    {...register("V")}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+            )
         case 5:
             return (
                 <input
                     type="text"
-                    {...register("V", { required: true })}
+                    {...register("V", { required: "Value is Mandatory" })}
                     placeholder="Value"
                     className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 ${
                         errors.V
