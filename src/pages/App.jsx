@@ -4,7 +4,7 @@ import { createSearchObservable, searchKeys } from "../lib"
 import { useEffect, useMemo, useState } from "react"
 import { useObservable } from "../hooks"
 import { useRecoilValue, useSetRecoilState } from "recoil"
-import { keyFormModalOpenState, userState } from "../atoms"
+import { keyFormModalOpenState, selectedKeyState, userState } from "../atoms"
 
 export const App = () => {
     const { token } = useRecoilValue(userState)
@@ -12,11 +12,17 @@ export const App = () => {
     const [search, setSearch] = useState("")
     const setKeyFormOpen = useSetRecoilState(keyFormModalOpenState)
     const [keys, setKeys] = useObservable(search$, [])
+    const setSelectedKey = useSetRecoilState(selectedKeyState)
 
     const onSearch = (e) => {
         const newValue = e.target.value
         setSearch(newValue)
         setKeys(newValue)
+    }
+
+    const newKey = () => {
+        setSelectedKey(null)
+        setKeyFormOpen(true)
     }
 
     const refresh = () => setKeys(search)
@@ -36,7 +42,7 @@ export const App = () => {
                             {token && (
                                 <button
                                     className="inline-flex justify-center items-center space-x-2 text-purple-700 hover:text-white border border-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-base px-5 text-center mr-2 dark:border-purple-400 dark:text-purple-400 dark:hover:text-white dark:hover:bg-purple-500 dark:focus:ring-purple-900"
-                                    onClick={() => setKeyFormOpen(true)}
+                                    onClick={newKey}
                                 >
                                     <CodeIcon className="h-5 w-5" />
                                     <span>Add Key</span>

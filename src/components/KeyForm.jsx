@@ -51,15 +51,22 @@ export const KeyForm = ({ refresh }) => {
         closeModal()
     }
 
+    const setInitalValues = (val) => {
+        const { key, T, V } = val ?? { key: "", T: 2, V: "" }
+        setValue("key", key)
+        setValue("T", T)
+        setKeyValue(V)
+        setKeyType(T)
+    }
+
     useEffect(() => {
         const load = async () => {
             if (selectedKey !== null) {
-                const { key, V, T } = await getKey(selectedKey.key, token)
-                setValue("key", key)
-                setValue("T", T)
-                setKeyValue(V)
-                setKeyType(T)
+                const k = await getKey(selectedKey.key, token)
+                setInitalValues(k)
+                return
             }
+            setInitalValues(null)
         }
 
         load()
